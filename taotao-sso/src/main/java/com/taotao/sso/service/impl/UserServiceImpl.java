@@ -53,9 +53,9 @@ public class UserServiceImpl implements UserService {
 		return TaotaoResult.ok();
 	}
 
-	@Override
+	//登录操作
 	public TaotaoResult userLogin(String username, String password) {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 
