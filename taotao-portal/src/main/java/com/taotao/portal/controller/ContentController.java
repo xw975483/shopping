@@ -1,9 +1,0 @@
-package com.taotao.portal.controller;
-
-import org.springframework.stereotype.Controller;
-
-@Controller
-public class ContentController {
-
-	
-}
