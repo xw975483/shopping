@@ -27,7 +27,7 @@ public class SearchController {
 	
 	@RequestMapping(value="/query",method=RequestMethod.GET)
 	@ResponseBody
-	public TaotaoResult search(@RequestParam("p") String queryString,
+	public TaotaoResult search(@RequestParam("q") String queryString,
 							@RequestParam(defaultValue="1") int page,
 							@RequestParam(defaultValue="30")  int rows){
 		if (StringUtils.isBlank(queryString)) {
