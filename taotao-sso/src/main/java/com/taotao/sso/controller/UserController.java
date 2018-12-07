@@ -6,6 +6,7 @@ import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.common.pojo.TaotaoResult;
@@ -73,4 +74,56 @@ public class UserController {
 		}
 	}
 	
+	//登录功能
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@ResponseBody
+	public TaotaoResult userLogin(String username,String password) {
+		try {
+			TaotaoResult result = userService.userLogin(username, password);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+		}
+	}
+	
+	//token查询用户信息
+	@RequestMapping("/token/{token}")
+	@ResponseBody
+	public Object getUserByToken(@PathVariable String token,String callback) {
+		TaotaoResult result = null;
+		try {
+			result = userService.getUserByToken(token);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+		}
+		if(StringUtils.isBlank(callback)) {
+			return result;
+		}else {
+			MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(result);
+			mappingJacksonValue.setJsonpFunction(callback);
+			return mappingJacksonValue;
+		}
+	}
+	
+	//token查询用户信息
+	@RequestMapping("/logout/{token}")
+	@ResponseBody
+	public Object userLogout(@PathVariable String token,String callback){
+		TaotaoResult result=null;
+		try {
+			result = userService.userLogout(token);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return TaotaoResult.build(500, ExceptionUtil.getStackTrace(e));
+		}
+		if(StringUtils.isBlank(callback)) {
+			return result;
+		}else {
+			MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(result);
+			mappingJacksonValue.setJsonpFunction(callback);
+			return mappingJacksonValue;
+		}
+	}
 }
